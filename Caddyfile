@@ -1,0 +1,21 @@
+#caddy
+http://rsshub.daodaoshi.com {
+ tls ddshi0413@gmail.com
+ reverse_proxy  http://172.22.0.3:1200
+}
+
+:443, out.daodaoshi.com #你的域名
+tls ddshi0413@gmail.com #你的邮箱
+route {
+ forward_proxy {
+   basic_auth ddshi naive2022 #用户名和密码
+   hide_ip
+   hide_via
+   probe_resistance
+  }
+ reverse_proxy  https://www.daodaoshi.xyz  { #伪装网址
+   header_up  Host  {upstream_hostport}
+   header_up  X-Forwarded-Host  {host}
+  }
+}
+ 
